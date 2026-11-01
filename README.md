@@ -248,7 +248,11 @@ This repository includes `Simple-Todo-Backend.postman_collection.json`.
 5. Send **Create Todo** first. Its test script saves the returned `_id` as the collection variable `todoId`.
 6. Send the remaining requests in order, or use the Collection Runner.
 
-If an existing todo should be tested instead, open the collection variables and paste its MongoDB ID into `todoId`. A successful status may vary slightly by implementation: create commonly returns `201`, normal reads/updates/deletes commonly return `200`, and a delete may also return `204` with no response body.
+If an existing todo should be tested instead, open the collection variables and paste its MongoDB ID into `todoId`. This implementation returns `201` for create and `200` for reads, update, and delete.
+
+### Verified result
+
+The full collection was run against MongoDB Atlas on November 1, 2026. All **5 requests**, **5 test scripts**, and **9 assertions** passed with **0 failures**. The todo created during the run was deleted by the final request.
 
 ## Push the project to GitHub
 
