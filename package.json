@@ -1,0 +1,24 @@
+{
+  "name": "simple-todo-backend",
+  "version": "1.0.0",
+  "description": "A simple Todo CRUD API built with Express and MongoDB.",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "test": "node --test"
+  },
+  "keywords": [
+    "express",
+    "mongodb",
+    "mongoose",
+    "todo",
+    "rest-api"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "mongoose": "^8.9.5"
+  }
+}

@@ -1,0 +1,247 @@
+{
+  "info": {
+    "_postman_id": "3df42ce1-baf8-4d2b-9fb4-6ce3c4a9409b",
+    "name": "Simple Todo Backend",
+    "description": "CRUD requests for the Simple Todo Backend API. Run Create Todo first so its test script can save the returned MongoDB ID in the collection-level todoId variable.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Create Todo",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status is 200 or 201', function () {",
+              "  pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+              "});",
+              "",
+              "pm.test('Response is JSON', function () {",
+              "  pm.response.to.be.json;",
+              "});",
+              "",
+              "if (pm.response.code === 200 || pm.response.code === 201) {",
+              "  const body = pm.response.json();",
+              "  const todo = body.data || body.todo || body;",
+              "  const id = todo._id || todo.id;",
+              "  if (id) {",
+              "    pm.collectionVariables.set('todoId', id);",
+              "  }",
+              "}"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"Finish backend assignment\",\n  \"description\": \"Create and test all CRUD endpoints.\",\n  \"completed\": false\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/todos",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "todos"
+          ]
+        },
+        "description": "Creates a todo and saves its returned ID in the collection variable todoId."
+      },
+      "response": []
+    },
+    {
+      "name": "Get All Todos",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status is 200', function () {",
+              "  pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('Response is JSON', function () {",
+              "  pm.response.to.be.json;",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/todos",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "todos"
+          ]
+        },
+        "description": "Returns all todos."
+      },
+      "response": []
+    },
+    {
+      "name": "Get Todo by ID",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status is 200', function () {",
+              "  pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('Returned todo has the requested ID', function () {",
+              "  const body = pm.response.json();",
+              "  const todo = body.data || body.todo || body;",
+              "  pm.expect(todo._id || todo.id).to.eql(pm.collectionVariables.get('todoId'));",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/todos/{{todoId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "todos",
+            "{{todoId}}"
+          ]
+        },
+        "description": "Returns the todo referenced by todoId."
+      },
+      "response": []
+    },
+    {
+      "name": "Update Todo",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status is 200', function () {",
+              "  pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('Todo is marked completed', function () {",
+              "  const body = pm.response.json();",
+              "  const todo = body.data || body.todo || body;",
+              "  pm.expect(todo.completed).to.eql(true);",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"Submit backend assignment\",\n  \"completed\": true\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/todos/{{todoId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "todos",
+            "{{todoId}}"
+          ]
+        },
+        "description": "Updates the todo referenced by todoId."
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Todo",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status is 200 or 204', function () {",
+              "  pm.expect(pm.response.code).to.be.oneOf([200, 204]);",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/todos/{{todoId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "todos",
+            "{{todoId}}"
+          ]
+        },
+        "description": "Deletes the todo referenced by todoId. Run this after the read and update requests."
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:5000",
+      "type": "string"
+    },
+    {
+      "key": "todoId",
+      "value": "",
+      "type": "string"
+    }
+  ]
+}
